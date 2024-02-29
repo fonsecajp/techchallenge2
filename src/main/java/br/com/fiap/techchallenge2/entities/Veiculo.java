@@ -11,15 +11,16 @@ public class Veiculo {
 
     @Id
     private String placa;
-    private String tipo;
+    @Enumerated(EnumType.STRING)
+    private TipoVeiculo tipoVeiculo;
     @OneToMany(mappedBy = "veiculo", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<RegistroParquimetro> registros = new ArrayList<>();
 
     public Veiculo() {
     }
-    public Veiculo(String placa, String tipo, List<RegistroParquimetro> registros) {
+    public Veiculo(String placa, TipoVeiculo tipoVeiculo, List<RegistroParquimetro> registros) {
         this.placa = placa;
-        this.tipo = tipo;
+        this.tipoVeiculo = tipoVeiculo;
         this.registros= registros;
     }
 
@@ -31,19 +32,16 @@ public class Veiculo {
         this.placa = placa;
     }
 
-    public String getTipo() {
-        return tipo;
+    public TipoVeiculo getTipoVeiculo() {
+        return tipoVeiculo;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setTipoVeiculo(TipoVeiculo tipo) {
+        this.tipoVeiculo = tipo;
     }
 
     public List<RegistroParquimetro> getRegistroParquimetroList() {
         return registros;
     }
 
-    public void setRegistroParquimetroList(List<RegistroParquimetro> registros) {
-        this.registros = registros;
-    }
 }

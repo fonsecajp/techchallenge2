@@ -1,16 +1,13 @@
 package br.com.fiap.techchallenge2.dto;
 
-import br.com.fiap.techchallenge2.entities.Veiculo;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonValue;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record ParquimetroResponseDTO(UUID uuid,
                                      String placa,
-                                     @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
+                                     br.com.fiap.techchallenge2.entities.TipoVeiculo tipoVeiculo, @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
                                      LocalDateTime dataEntrada,
                                      @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
                                      LocalDateTime dataSaida,

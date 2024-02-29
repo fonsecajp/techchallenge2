@@ -18,6 +18,7 @@ public class RegistroParquimetro {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "veiculo_id")
     private Veiculo veiculo;
+    @Enumerated(EnumType.STRING)
     private StatusPaquimetro status ;
 
     public RegistroParquimetro(){

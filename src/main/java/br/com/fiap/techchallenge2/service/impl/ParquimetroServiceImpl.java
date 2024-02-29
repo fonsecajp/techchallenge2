@@ -1,9 +1,7 @@
 package br.com.fiap.techchallenge2.service.impl;
 
 import br.com.fiap.techchallenge2.dto.ParquimetroRequestDTO;
-import br.com.fiap.techchallenge2.entities.RegistroParquimetro;
-import br.com.fiap.techchallenge2.entities.StatusPaquimetro;
-import br.com.fiap.techchallenge2.entities.Veiculo;
+import br.com.fiap.techchallenge2.entities.*;
 import br.com.fiap.techchallenge2.exception.KeyMessages;
 import br.com.fiap.techchallenge2.exception.NotFoundException;
 import br.com.fiap.techchallenge2.mappers.ParquimetroMapper;
@@ -26,8 +24,6 @@ public class ParquimetroServiceImpl implements ParquimetroService {
 
     private final ParquimetroRepository parquimetroRepository;
     private final VeiculoRepository veiculoRepository;
-    private final double TAXA_POR_HORA = 10.0;
-    private final double TAXA_POR_15_MIN = 3.0;
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
     public ParquimetroServiceImpl(ParquimetroRepository parquimetroRepository, VeiculoRepository veiculoRepository) {
@@ -54,17 +50,18 @@ public class ParquimetroServiceImpl implements ParquimetroService {
         registroParquimetro.setDataSaida(LocalDateTime.now());
         registroParquimetro.setStatus(StatusPaquimetro.ENTROU_E_SAIU);
         parquimetroRepository.save(registroParquimetro);
-        calculaValorDevido(registroParquimetro);
+        calculaValorDevido(veiculo.getTipoVeiculo(), registroParquimetro);
         return registroParquimetro;
     }
 
-    private void calculaValorDevido(RegistroParquimetro registroParquimetro) {
+    private void calculaValorDevido(TipoVeiculo tipoVeiculo, RegistroParquimetro registroParquimetro) {
         Duration duration = Duration.between(registroParquimetro.getDataEntrada(), registroParquimetro.getDataSaida());
-        registroParquimetro.setValor((duration.toHours() * TAXA_POR_HORA) + (Math.ceil(duration.toMinutesPart() / 15.0) * TAXA_POR_15_MIN));
+        TipoVeiculoConfig config = TipoVeiculoConfig.retornarConfigVeiculo(tipoVeiculo);
+        registroParquimetro.setValor(((1 + duration.toHours()) * config.getValorHora()) + (config.getValorMinino()));
     }
 
     private Veiculo findOrCreateInDB(ParquimetroRequestDTO dto) {
-        final Veiculo veiculo = veiculoRepository.findByPlaca(dto.placa()).orElse(new Veiculo(dto.placa(), dto.tipo(), new ArrayList<>()));
+        final Veiculo veiculo = veiculoRepository.findByPlaca(dto.placa()).orElse(new Veiculo(dto.placa(), dto.tipoVeiculo(), new ArrayList<>()));
         return veiculo;
     }
 

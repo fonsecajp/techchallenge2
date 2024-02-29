@@ -15,12 +15,14 @@ public interface ParquimetroMapper {
     static ParquimetroEntryResponseDTO entradaNoEstacionamento (RegistroParquimetro registroParquimetro){
         return new ParquimetroEntryResponseDTO(registroParquimetro.getUuid(),
                                             registroParquimetro.getVeiculo().getPlaca(),
+                                            registroParquimetro.getVeiculo().getTipoVeiculo(),
                                             registroParquimetro.getDataEntrada());
     }
     static ParquimetroResponseDTO saidaDoEstacionamento (RegistroParquimetro registroParquimetro){
         return new ParquimetroResponseDTO(
                 registroParquimetro.getUuid(),
                 registroParquimetro.getVeiculo().getPlaca(),
+                registroParquimetro.getVeiculo().getTipoVeiculo(),
                 registroParquimetro.getDataEntrada(),
                 registroParquimetro.getDataSaida(),
                 registroParquimetro.getValor());
