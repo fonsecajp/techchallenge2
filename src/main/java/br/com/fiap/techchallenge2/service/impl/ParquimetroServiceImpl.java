@@ -1,7 +1,11 @@
 package br.com.fiap.techchallenge2.service.impl;
 
 import br.com.fiap.techchallenge2.dto.ParquimetroRequestDTO;
-import br.com.fiap.techchallenge2.entities.*;
+import br.com.fiap.techchallenge2.entities.RegistroParquimetro;
+import br.com.fiap.techchallenge2.entities.StatusPaquimetro;
+import br.com.fiap.techchallenge2.entities.TipoVeiculo;
+import br.com.fiap.techchallenge2.entities.TipoVeiculoConfig;
+import br.com.fiap.techchallenge2.entities.Veiculo;
 import br.com.fiap.techchallenge2.exception.KeyMessages;
 import br.com.fiap.techchallenge2.exception.NotFoundException;
 import br.com.fiap.techchallenge2.mappers.ParquimetroMapper;
@@ -42,11 +46,12 @@ public class ParquimetroServiceImpl implements ParquimetroService {
         veiculoRepository.save(veiculo);
         return registroParquimetro;
     }
+
     @Transactional
     public RegistroParquimetro sair(ParquimetroRequestDTO dto) {
         Veiculo veiculo = findInDBSaida(dto);
         verificaSaida(veiculo, parquimetroRepository);
-        RegistroParquimetro registroParquimetro = veiculo.getRegistroParquimetroList().get(veiculo.getRegistroParquimetroList().size() -1);
+        RegistroParquimetro registroParquimetro = veiculo.getRegistroParquimetroList().get(veiculo.getRegistroParquimetroList().size() - 1);
         registroParquimetro.setDataSaida(LocalDateTime.now());
         registroParquimetro.setStatus(StatusPaquimetro.ENTROU_E_SAIU);
         parquimetroRepository.save(registroParquimetro);
@@ -73,22 +78,22 @@ public class ParquimetroServiceImpl implements ParquimetroService {
 
     private void verificaEntrada(Veiculo veiculo, ParquimetroRepository parquimetroRepository) {
         Optional<List<RegistroParquimetro>> registros = parquimetroRepository.findAllByVeiculoPlaca(veiculo.getPlaca());
-        if(consultaValidadeRegistro(registros , StatusPaquimetro.ENTROU_E_NAO_SAIU)){
+        if (consultaValidadeRegistro(registros, StatusPaquimetro.ENTROU_E_NAO_SAIU)) {
             throw new NotFoundException(KeyMessages.VEICULO_JA_ESTA_ESTACIONADO.getValue());
         }
     }
 
     private void verificaSaida(Veiculo veiculo, ParquimetroRepository parquimetroRepository) {
         Optional<List<RegistroParquimetro>> registros = parquimetroRepository.findAllByVeiculoPlaca(veiculo.getPlaca());
-        if(consultaValidadeRegistro(registros , StatusPaquimetro.ENTROU_E_SAIU)){
+        if (consultaValidadeRegistro(registros, StatusPaquimetro.ENTROU_E_SAIU)) {
             throw new NotFoundException(KeyMessages.VEICULO_JA_SAIU.getValue());
         }
     }
 
-    private Boolean consultaValidadeRegistro(Optional<List<RegistroParquimetro>> registros, StatusPaquimetro statusPaquimetro){
-        if(registros.isPresent()){
-            if(registros.get().size()>1) {
-                if(registros.get().get(registros.get().size() - 1).getStatus() == statusPaquimetro){
+    private Boolean consultaValidadeRegistro(Optional<List<RegistroParquimetro>> registros, StatusPaquimetro statusPaquimetro) {
+        if (registros.isPresent()) {
+            if (registros.get().size() > 1) {
+                if (registros.get().get(registros.get().size() - 1).getStatus() == statusPaquimetro) {
                     return true;
                 }
             } else if (registros.get().size() == 1 && registros.get().get(0).getStatus() == statusPaquimetro) {

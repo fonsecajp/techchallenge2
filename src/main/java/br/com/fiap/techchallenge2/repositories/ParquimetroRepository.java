@@ -11,5 +11,6 @@ import java.util.UUID;
 @Repository
 public interface ParquimetroRepository extends JpaRepository<RegistroParquimetro, UUID> {
     Optional<RegistroParquimetro> findByVeiculoPlaca(String placa);
+
     Optional<List<RegistroParquimetro>> findAllByVeiculoPlaca(String placa);
 }

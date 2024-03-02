@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface ParquimetroService {
-     RegistroParquimetro sair(ParquimetroRequestDTO dto);
-     RegistroParquimetro entrar(ParquimetroRequestDTO dto);
+    RegistroParquimetro sair(ParquimetroRequestDTO dto);
+
+    RegistroParquimetro entrar(ParquimetroRequestDTO dto);
 }

@@ -1,6 +1,13 @@
 package br.com.fiap.techchallenge2.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +25,11 @@ public class Veiculo {
 
     public Veiculo() {
     }
+
     public Veiculo(String placa, TipoVeiculo tipoVeiculo, List<RegistroParquimetro> registros) {
         this.placa = placa;
         this.tipoVeiculo = tipoVeiculo;
-        this.registros= registros;
+        this.registros = registros;
     }
 
     public String getPlaca() {

@@ -46,9 +46,10 @@ public class ExceptionHandler {
         validateError.setMessage(e.getMessage());
         validateError.setPath(request.getRequestURI());
 
-        for (FieldError f: e.getBindingResult().getFieldErrors()) {
+        for (FieldError f : e.getBindingResult().getFieldErrors()) {
             validateError.addMensagens(f.getField(), f.getDefaultMessage());
-        };
+        }
+        ;
 
         return ResponseEntity.status(status).body(validateError);
     }

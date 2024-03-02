@@ -1,6 +1,15 @@
 package br.com.fiap.techchallenge2.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -19,9 +28,9 @@ public class RegistroParquimetro {
     @JoinColumn(name = "veiculo_id")
     private Veiculo veiculo;
     @Enumerated(EnumType.STRING)
-    private StatusPaquimetro status ;
+    private StatusPaquimetro status;
 
-    public RegistroParquimetro(){
+    public RegistroParquimetro() {
     }
 
     public RegistroParquimetro(UUID uuid, LocalDateTime dataEntrada, LocalDateTime dataSaida, Double valor, StatusPaquimetro status) {
@@ -55,17 +64,23 @@ public class RegistroParquimetro {
     public Double getValor() {
         return valor;
     }
+
     public void setValor(Double valor) {
         this.valor = valor;
     }
 
-    public void setVeiculo(Veiculo veiculo) { this.veiculo = veiculo; }
+    public void setVeiculo(Veiculo veiculo) {
+        this.veiculo = veiculo;
+    }
+
     public Veiculo getVeiculo() {
         return veiculo;
     }
+
     public StatusPaquimetro getStatus() {
         return status;
     }
+
     public void setStatus(StatusPaquimetro status) {
         this.status = status;
     }

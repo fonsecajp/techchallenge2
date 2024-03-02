@@ -1,68 +1,68 @@
 {
-	"info": {
-		"_postman_id": "885ff6d3-6ef3-4ab0-9014-93f4df253e4c",
-		"name": "TechChallenge2",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "17034778"
-	},
-	"item": [
-		{
-			"name": "Entry",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"placa\": \"HGZ-1223\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/parquimetro",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"parquimetro"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Exit",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"placa\":\"HGZ-1227\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/parquimetro/HGZ-1227/sair",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"parquimetro",
-						"HGZ-1227",
-						"sair"
-					]
-				}
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "_postman_id": "885ff6d3-6ef3-4ab0-9014-93f4df253e4c",
+    "name": "TechChallenge2",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "17034778"
+  },
+  "item": [
+    {
+      "name": "Entry",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"placa\": \"HGZ-1223\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/parquimetro",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "parquimetro"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Exit",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"placa\":\"HGZ-1227\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/parquimetro/HGZ-1227/sair",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "parquimetro",
+            "HGZ-1227",
+            "sair"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
 }
