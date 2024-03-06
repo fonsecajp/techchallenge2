@@ -1,16 +1,19 @@
 package br.com.fiap.techchallenge2.entities;
 
 import jakarta.persistence.*;
+import org.springframework.cache.annotation.EnableCaching;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "registros")
-public class RegistroParquimetro {
+public class RegistroParquimetro implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+
     private UUID uuid;
     private LocalDateTime dataEntrada;
     private LocalDateTime dataSaida;
