@@ -13,12 +13,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/parquimetro")
 public class ParquimetroController {
 
 
     private final ParquimetroServiceImpl parquimetroServiceImpl;
+
 
     public ParquimetroController(ParquimetroServiceImpl parquimetroServiceImpl) {
         this.parquimetroServiceImpl = parquimetroServiceImpl;
@@ -28,6 +33,13 @@ public class ParquimetroController {
     public ResponseEntity<ParquimetroEntryResponseDTO> entrar(@RequestBody ParquimetroRequestDTO parquimetroRequestDTO) {
         final RegistroParquimetro registroParquimetro = parquimetroServiceImpl.entrar(parquimetroRequestDTO);
         return ResponseEntity.ok(ParquimetroMapper.entradaNoEstacionamento(registroParquimetro));
+    }
+
+    @GetMapping("/{placa}")
+    public ResponseEntity<List<ParquimetroResponseDTO>> getByPlaca(@PathVariable String placa){
+        final List<RegistroParquimetro> registroParquimetros = parquimetroServiceImpl.getByPlaca(placa);
+        final List<ParquimetroResponseDTO> responseDTOS = registroParquimetros.stream().map(ParquimetroMapper::saidaDoEstacionamento).collect(Collectors.toList());
+        return ResponseEntity.ok(responseDTOS);
     }
 
     @PostMapping("/{placa}/sair")

@@ -13,6 +13,8 @@ import br.com.fiap.techchallenge2.repositories.ParquimetroRepository;
 import br.com.fiap.techchallenge2.repositories.VeiculoRepository;
 import br.com.fiap.techchallenge2.service.ParquimetroService;
 import jakarta.transaction.Transactional;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -30,12 +32,14 @@ public class ParquimetroServiceImpl implements ParquimetroService {
     private final VeiculoRepository veiculoRepository;
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
+
     public ParquimetroServiceImpl(ParquimetroRepository parquimetroRepository, VeiculoRepository veiculoRepository) {
         this.parquimetroRepository = parquimetroRepository;
         this.veiculoRepository = veiculoRepository;
     }
 
     @Transactional
+    @CacheEvict(value = "registroParquimetroPorPlaca", key = "#dto.placa", allEntries = false)
     public RegistroParquimetro entrar(ParquimetroRequestDTO dto) {
         Veiculo veiculo = findOrCreateInDB(dto);
         verificaEntrada(veiculo, parquimetroRepository);
@@ -47,9 +51,20 @@ public class ParquimetroServiceImpl implements ParquimetroService {
         return registroParquimetro;
     }
 
+    @Override
+    @Cacheable(value = "registroParquimetroPorPlaca", key = "#placa")
+    public List<RegistroParquimetro> getByPlaca(String placa) {
+        Optional<List<RegistroParquimetro>> todosRegistros = parquimetroRepository.findAllByVeiculoPlaca(placa);
+        if (todosRegistros.isPresent()) {
+            return todosRegistros.get();
+        }
+        throw new NotFoundException(KeyMessages.PLACA_NOT_FOUND.getValue());
+    }
+
     @Transactional
+    @CacheEvict(value = "registroParquimetroPorPlaca", key = "#dto.placa", allEntries = false)
     public RegistroParquimetro sair(ParquimetroRequestDTO dto) {
-        Veiculo veiculo = findInDBSaida(dto);
+        Veiculo veiculo = findInDB(dto);
         verificaSaida(veiculo, parquimetroRepository);
         RegistroParquimetro registroParquimetro = veiculo.getRegistroParquimetroList().get(veiculo.getRegistroParquimetroList().size() - 1);
         registroParquimetro.setDataSaida(LocalDateTime.now());
@@ -65,12 +80,14 @@ public class ParquimetroServiceImpl implements ParquimetroService {
         registroParquimetro.setValor(((1 + duration.toHours()) * config.getValorHora()) + (config.getValorMinino()));
     }
 
-    private Veiculo findOrCreateInDB(ParquimetroRequestDTO dto) {
+    @Cacheable(value = "veiculo", key = "#dto.placa")
+    public Veiculo findOrCreateInDB(ParquimetroRequestDTO dto) {
         final Veiculo veiculo = veiculoRepository.findByPlaca(dto.placa()).orElse(new Veiculo(dto.placa(), dto.tipoVeiculo(), new ArrayList<>()));
         return veiculo;
     }
 
-    private Veiculo findInDBSaida(ParquimetroRequestDTO dto) {
+    @Cacheable(value = "veiculo", key = "#dto.placa")
+    public Veiculo findInDB(ParquimetroRequestDTO dto) {
         final Veiculo veiculo = veiculoRepository.findByPlaca(dto.placa()).orElseThrow(()
                 -> new NotFoundException(KeyMessages.PLACA_NOT_FOUND.getValue()));
         return veiculo;

@@ -11,15 +11,17 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "registros")
-public class RegistroParquimetro {
+public class RegistroParquimetro implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+
     private UUID uuid;
     private LocalDateTime dataEntrada;
     private LocalDateTime dataSaida;
