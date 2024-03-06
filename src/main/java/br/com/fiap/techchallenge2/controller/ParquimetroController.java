@@ -7,6 +7,7 @@ import br.com.fiap.techchallenge2.entities.RegistroParquimetro;
 import br.com.fiap.techchallenge2.mappers.ParquimetroMapper;
 import br.com.fiap.techchallenge2.service.impl.ParquimetroServiceImpl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
