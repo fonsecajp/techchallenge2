@@ -7,13 +7,13 @@
 	},
 	"item": [
 		{
-			"name": "Entry",
+			"name": "Entrar",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"placa\": \"HGZ-1223\"\r\n}",
+					"raw": "{\r\n    \"placa\": \"HGZ-1221\",\r\n    \"tipoVeiculo\":\"CAMINHONETE\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -35,7 +35,27 @@
 			"response": []
 		},
 		{
-			"name": "Exit",
+			"name": "Buscar Por Placa",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/parquimetro/HGZ-1221",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"parquimetro",
+						"HGZ-1221"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sair",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -49,7 +69,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/parquimetro/HGZ-1227/sair",
+					"raw": "http://localhost:8080/parquimetro/HGZ-1221/sair",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -57,7 +77,7 @@
 					"port": "8080",
 					"path": [
 						"parquimetro",
-						"HGZ-1227",
+						"HGZ-1221",
 						"sair"
 					]
 				}
